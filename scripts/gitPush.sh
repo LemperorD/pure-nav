@@ -1,0 +1,2 @@
+cd ~/pure-nav
+cmake ..
