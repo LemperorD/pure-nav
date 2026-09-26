@@ -7,3 +7,6 @@
 [submodule "src/thirdparty/matplotlib-cpp"]
 	path = src/thirdparty/matplotlib-cpp
 	url = https://github.com/lava/matplotlib-cpp.git
+[submodule "src/thirdparty/acados"]
+	path = src/thirdparty/acados
+	url = https://github.com/acados/acados.git
