@@ -1,21 +1,4 @@
-# ============================================================================
 # test —— 单元测试（由顶层选项 PURE_NAV_BUILD_TESTS 控制）
-#
-# src/CMakeLists.txt 已做门控：只有 -DPURE_NAV_BUILD_TESTS=ON 时才会进入本目录。
-#
-# 运行：
-#   cmake -S . -B build -DPURE_NAV_BUILD_TESTS=ON
-#   cmake --build build -j
-#   ctest --test-dir build --output-on-failure
-#
-# 三个测试目标（都自带 main 与断言，失败返回非 0，不依赖第三方测试框架）：
-#   test_common            手工构造小数据的单元测试（test_filters.cpp）
-#   test_filters_data      读取 test_data/filters/*.csv 的数据驱动测试
-#   test_filters_consumer  模拟下游模块引用 common_libs（刻意只链接库、不加 -I）
-#
-# test_common/test_check.hpp 是三个目标共用的迷你测试框架。
-# test_data/ 只存放测试数据，不是测试目标，不在此注册。
-# ============================================================================
 
 # 数据驱动测试需要知道 test_data 的绝对路径（编译期注入，因此 ctest 从任意目录
 # 运行都能找到数据文件）

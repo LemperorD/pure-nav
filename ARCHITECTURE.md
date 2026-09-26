@@ -29,13 +29,14 @@ pure-nav/
 ├── .gitignore                  # 忽略 bin/* 与 build/*
 ├── .vscode/settings.json       # Conventional Commits scopes 白名单
 │
-├── bin/                        # 所有可执行文件输出目录（仅 .gitkeep）
+├── bin/                        # 本项目可执行文件输出目录（仅 .gitkeep）
 ├── build/                      # CMake 构建目录（仅 .gitkeep）
+│   └── thirdparty/             #   ★ 第三方库专属区域：build/ install/ deps/ logs/ env.sh
 ├── config/                     # 运行时参数配置（空，推断用于 yaml/json）
 ├── autostart/                  # 开机自启脚本（空，推断 systemd/rc.local）
 ├── assets/img/                 # 静态资源（空）
 ├── scripts/
-│   ├── autoBuild.sh            # 构建脚本（当前内容有误，见 7.3）
+│   ├── autoBuild.sh            # 一键构建脚本：第三方库 + 本项目（见 5.2）
 │   └── gitPush.sh              # 提交推送脚本（当前内容有误，见 7.3）
 │
 └── src/
@@ -53,7 +54,7 @@ pure-nav/
     ├── auto_aim/               # 【规划】自动瞄准
     ├── ui/                     # 【规划】调试可视化 -> bin/pure_nav_ui
     ├── sim/                    # 【规划】仿真 -> bin/pure_nav_sim
-    ├── thirdparty/             # 【规划】第三方源码（写在本目录的 CMakeLists 里）
+    ├── thirdparty/             # 第三方库源码（git submodule）+ 只做「接入」的 CMakeLists
     └── test/                   # 【部分实现】单元测试
         ├── test_common/        #   common 模块测试（3 个测试目标 + 迷你框架 test_check.hpp）
         └── test_data/          #   测试数据（filters/*.csv + Python 生成脚本）
@@ -97,7 +98,7 @@ pure-nav/
 | `auto_aim` | 弹道解算、云台控制、目标预测 | perception、odometry | driver | 空 |
 | `ui` | 可视化、参数在线调节、日志呈现 | 全部模块 | 人 | 空 |
 | `sim` | 仿真环境、离线回放、算法验证 | 测试数据 | planner、controller | 空 |
-| `thirdparty` | 第三方库源码（header-only 或 vendored） | — | 全部模块 | 空 |
+| `thirdparty` | 第三方库接入层（源码为 submodule，编译产物在 `build/thirdparty/`） | — | 全部模块 | 3 个库已独立编译安装，项目侧只 `find_package` |
 | `test` | 单元测试与测试数据 | 被测模块 | CI/开发者 | 3 个测试目标（单元 / 数据驱动 / 下游引用）全部通过 |
 
 ### 3.1 推断的数据流（待确认）
@@ -155,6 +156,26 @@ feat(common): :sparkles: 增加filters功能
 
 ## 5. 构建与运行
 
+推荐使用一键脚本 `scripts/autoBuild.sh`（会自动处理三个第三方库，以及本机缺失 C++ 前端的免 root 兜底）：
+
+```bash
+# 第三方库 + 本项目（第三方库已就绪时自动跳过）
+scripts/autoBuild.sh
+
+# 只构建第三方库 / 只构建本项目
+scripts/autoBuild.sh thirdparty
+scripts/autoBuild.sh project --tests
+
+# 常用选项与清理
+scripts/autoBuild.sh project -j 8 -t Debug --werror
+scripts/autoBuild.sh clean        # 清第三方库构建中间产物（保留 install）
+scripts/autoBuild.sh distclean    # 清 build/ 与 bin/ 下全部产物
+scripts/autoBuild.sh status       # 查看产物状态
+scripts/autoBuild.sh help
+```
+
+也可以直接用 CMake（前提：`build/thirdparty/install` 已由脚本生成）：
+
 ```bash
 # 1) 配置（源目录与构建目录分离，不要在仓库根直接跑 cmake）
 cmake -S . -B build
@@ -180,12 +201,13 @@ ctest --test-dir build --output-on-failure
 | `PURE_NAV_BUILD_TESTS` | `OFF` | 构建 `src/test` 下的测试并注册到 ctest |
 | `PURE_NAV_WARNINGS_AS_ERRORS` | `OFF` | 追加 `-Werror` |
 
-- `bin/` 为**所有可执行文件的统一输出目录**（主程序、`ui`、`sim`、测试），`build/lib/` 放中间静态库，二者内容均不入库。
+- `bin/` 为**本项目可执行文件**的统一输出目录（主程序、`ui`、`sim`、测试），`build/lib/` 放本项目中间静态库，二者内容均不入库。
+- **第三方库产物单独存放**在 `build/thirdparty/`，与项目模块产物完全分开（见 5.2）。
 - `compile_commands.json` 已在顶层开启（生成于 `build/`），供 clangd / IDE / Agent 使用。
 - 全局编译标志：`-std=c++11`、静态库 `-fPIC`、可执行 `-fPIE`、`-Wall -Wextra -Wpedantic -Wshadow`。
 - `config/` 预期存放运行时可调参数，供程序读取（推断：yaml/json）。
 - `autostart/` 预期存放哨兵上电自启脚本（推断：systemd unit 或 shell）。
-- 环境要求：CMake ≥ 3.22，支持 C++11 的编译器。
+- 环境要求：CMake ≥ 3.22、支持 C++11 的编译器、已初始化的 `git submodule`（第三方库源码）；Pangolin 另需 Eigen3 / OpenGL / GLEW / X11 等系统库。
 
 ### 5.1 验证状态
 
@@ -195,7 +217,48 @@ ctest --test-dir build --output-on-failure
 | `cmake --build build` | ✅ 通过，产出 `bin/pure_nav` + `build/lib/libpure_nav_{common_libs,shm}.a` |
 | `-DPURE_NAV_BUILD_TESTS=ON` | ✅ 通过，`ctest` 3 个测试全绿：`test_common`（22 用例/66 断言）、`test_filters_data`（CSV golden 比对）、`test_filters_consumer`（下游引用） |
 | `-DPURE_NAV_WARNINGS_AS_ERRORS=ON` | ✅ 通过，`-Werror` 正确注入 |
-| 真实 C++ 编译 | ✅ 已用免 root 手动解包的 g++-15（GNU 15.2.0）在 `-Werror` 下完整编译并运行测试；本机**系统级**仍无 `g++`（见 7.2） |
+| 真实 C++ 编译 | ✅ 已用免 root 解包的 g++-15（GNU 15.2.0）在 `-Werror` 下完整编译并运行测试；本机**系统级**仍无 `g++`（见 7.2，现已由脚本自动兜底） |
+| `scripts/autoBuild.sh thirdparty` | ✅ 三个库全部编译安装到 `build/thirdparty/install`：Livox-SDK2（静态 + 动态）、Pangolin（全部组件 + CMake 包）、matplotlib-cpp（头文件 + CMake 包 + 17 个 examples） |
+| `scripts/autoBuild.sh` / `project --tests` | ✅ 第三方库 + 本项目全链路通过，配置摘要显示三个库「已接入」，`ctest` 全绿 |
+
+### 5.2 构建产物布局（第三方库与项目模块分开）
+
+脚本把第三方库和本项目**分别配置、分别编译、分别存放**：
+
+```
+build/
+├── thirdparty/                     ★ 第三方库专属区域（scripts/autoBuild.sh 管理）
+│   ├── build/Livox-SDK2/             各库各自独立的 CMake 构建树
+│   ├── build/Pangolin/
+│   ├── build/matplotlib-cpp/
+│   ├── install/                      统一安装前缀
+│   │   ├── include/                  livox_*.h / pangolin/ / matplotlibcpp.h
+│   │   ├── lib/                      liblivox_lidar_sdk_*.a/.so、libpango_*.so
+│   │   └── lib/cmake/...             PangolinConfig.cmake、matplotlib_cppConfig.cmake
+│   ├── deps/                         免 root 补装的构建期依赖（如 libepoxy-dev 头文件）
+│   ├── logs/<库名>.log               各库完整构建日志
+│   └── env.sh                        source 后可让外部工具找到这些库
+├── lib/                           本项目静态库（libpure_nav_*.a）
+├── src/  CMakeFiles/ ...          本项目构建树
+└── compile_commands.json
+bin/                               本项目可执行文件
+```
+
+`src/thirdparty/CMakeLists.txt` **只做接入**，不再 `add_subdirectory` 第三方源码：
+从 `build/thirdparty/install` 里 `find_package`，并提供统一的 imported target，
+所以第三方产物不会混进 `build/lib/`。
+
+| 第三方库 | 接入方式 | 目标名 |
+|---|---|---|
+| Livox-SDK2 | 手工声明 imported target（上游不导出 CMake 包） | `livox_sdk2` |
+| Pangolin | `PangolinConfig.cmake` | `pango_core` / `pango_display` 等（上游未加命名空间） |
+| matplotlib-cpp | `matplotlib_cppConfig.cmake` | `matplotlib_cpp::matplotlib_cpp` |
+
+> Pangolin 把 `HAVE_EPOXY` 作为 PUBLIC 编译定义导出，消费方包含 `<pangolin/pangolin.h>`
+> 时会间接 `#include <epoxy/gl.h>`；本机只装了 `libepoxy0` 运行库。脚本会把免 root 解包的
+> `libepoxy-dev` 头文件与链接库一并补进 `build/thirdparty/install`，因此该前缀是**自包含**的
+> ——链接任意 `pango_*` 目标即可编译，无需额外 `-I`。
+
 
 ---
 
@@ -241,26 +304,32 @@ ctest --test-dir build --output-on-failure
 
 原先顶层 `CMakeLists.txt` 写的是 `add_subdictionary(src)`（非法命令且拼写错误）、且 `src/CMakeLists.txt` 与各模块 `CMakeLists.txt` 全部缺失。现已全部补齐并验证通过，见第 5 节与第 9 节。
 
-### 7.2 系统缺少 C++ 前端 🟠（可绕过）
+### 7.2 系统缺少 C++ 前端 ✅ 已自动化兜底
 
 ```
 CMake Error: No CMAKE_CXX_COMPILER could be found.
 ```
 
-本机 `gcc` 存在，但**没有 C++ 前端**（无 `g++`/`clang++`，`/usr/lib/gcc/*/*/cc1plus` 也不存在），因此 CMake 在 `project(... LANGUAGES CXX)` 阶段直接失败。需安装 `g++`（或 `clang++`）后重新配置：
+本机 `gcc` 存在，但**没有 C++ 前端**（无 `g++`/`clang++`，`/usr/lib/gcc/*/*/cc1plus` 也不存在），
+因此裸 CMake 会在 `project(... LANGUAGES CXX)` 阶段直接失败。推荐直接装：
 
 ```bash
-sudo apt install g++        # 需要 sudo 权限（当前环境 sudo 需要密码）
+sudo apt install g++        # 需要 sudo；装好后脚本会自动优先使用系统 g++
 ```
 
-> 这是**环境问题，不是代码问题**。在拿到 sudo 之前，可以免 root 绕过：`apt-get download g++-15-x86-64-linux-gnu` → `dpkg-deb -x` 解包取出 `cc1plus`，再用包装脚本调用系统 `gcc-15` 并加 `-B<cc1plus 目录> -lstdc++`，最后 `cmake -DCMAKE_CXX_COMPILER=<包装脚本>`。本节 5.1 的"真实 C++ 编译"一行就是这样验证的。装好 `g++` 后请恢复使用系统编译器。
+> 在拿到 sudo 之前，`scripts/autoBuild.sh` 会**自动免 root 兜底**：`apt-get download
+> g++-15-x86-64-linux-gnu` → `dpkg-deb -x` 解包取出 `cc1plus`，再在
+> `~/.cache/pure-nav/toolchain` 生成包装脚本 `bin/g++-wrapped`（用 `-B` 指向解包出的
+> 前端，并软链系统头文件/`liblto_plugin.so`），最后以 `-DCMAKE_CXX_COMPILER=<包装脚本>`
+> 配置。可用 `PURE_NAV_TOOLCHAIN_DIR` 改缓存目录，或用 `PURE_NAV_NO_LOCAL_TOOLCHAIN=1`
+> 关闭该行为。这是**环境问题，不是代码问题**；装好系统 `g++` 后脚本会自动切回。
 
 ### 7.3 脚本内容错误 🟠
 
 | 文件 | 问题 | 建议 |
 |---|---|---|
-| `scripts/autoBuild.sh` | `cmake ..` 在 `~/pure-nav` 根目录执行，而非 `build/`；缺 `-S/-B` 且无 `--build` | 改为 `cmake -S ~/pure-nav -B ~/pure-nav/build && cmake --build ~/pure-nav/build -j` |
-| `scripts/gitPush.sh` | 内容与 `autoBuild.sh` 完全相同，实为复制粘贴残留，未做任何 git 操作 | 改为 `git add -A && git commit && git push`（或按需简化） |
+| `scripts/autoBuild.sh` | ✅ 已重写：支持 `all/thirdparty/project/clean/distclean/status/help` 命令，自动处理第三方库、编译器兜底、陈旧 CMakeCache | 直接 `scripts/autoBuild.sh [命令]`，`-h` 查看帮助 |
+| `scripts/gitPush.sh` | 内容与旧的 `autoBuild.sh` 完全相同，实为复制粘贴残留，未做任何 git 操作 | 改为 `git add -A && git commit && git push`（或按需简化） |
 
 ### 7.4 其他
 
@@ -272,7 +341,7 @@ sudo apt install g++        # 需要 sudo 权限（当前环境 sudo 需要密�
 - C++11 下**不能**写 `namespace pure::common {`（那是 C++17 语法，`-Wpedantic`/`-Werror` 会报 `c++17-extensions`），必须写成嵌套的 `namespace pure { namespace common { ... } }`。
 - `src/{driver,perception,odometry,planner,controller,auto_aim}` 目前是 **INTERFACE 占位库**（无实现文件）。它们声明的 `include/` 目录尚不存在，因此没有任何 `-I` 生效；一旦放入源文件并按 6.1 改成 STATIC 即可。
 - `src/ui`、`src/sim` 尚无源文件，`add_executable` 需要至少一个源文件，因此这两个目标在各自的 `CMakeLists.txt` 中**以注释形式给出模板**，取消注释即可产出 `bin/pure_nav_ui` / `bin/pure_nav_sim`。
-- `src/thirdparty/CMakeLists.txt` 目前不含任何目标，只写了 vendored 库的接入示例。
+- `src/thirdparty/CMakeLists.txt` **只做接入**：从 `build/thirdparty/install` 找预编译的 Pangolin / matplotlib-cpp，并为 Livox-SDK2 声明 `livox_sdk2` imported target；它不编译任何第三方源码（见 5.2）。三个库的源码是 git submodule，需 `git submodule update --init --recursive`。
 
 ---
 
@@ -344,7 +413,7 @@ sudo apt install g++        # 需要 sudo 权限（当前环境 sudo 需要密�
 | `src/app/CMakeLists.txt` | `pure_nav`（可执行）+ 对全部库的链接 |
 | `src/driver/`…`src/auto_aim/CMakeLists.txt` | 每个文件一个 `INTERFACE` 占位库 + 其依赖；加入实现后就地改成 `STATIC` |
 | `src/ui/`、`src/sim/CMakeLists.txt` | 目前只有注释形式的 `add_executable` 模板 |
-| `src/thirdparty/CMakeLists.txt` | 目前无目标，只放 vendored 库接入示例 |
+| `src/thirdparty/CMakeLists.txt` | 只做接入：`find_package(Pangolin)` / `find_package(matplotlib_cpp)` + `livox_sdk2` imported target（预编译产物在 `build/thirdparty/install`） |
 | `src/test/CMakeLists.txt` | `test_common` / `test_filters_data` / `test_filters_consumer`（可执行）+ `add_test` 注册，受 `PURE_NAV_BUILD_TESTS` 门控 |
 
 **只有根文件用全局设置**（`CMAKE_RUNTIME_OUTPUT_DIRECTORY` 等）；模块文件不做重复设置，因此新增可执行目标会自动落到 `bin/`。
@@ -354,4 +423,4 @@ sudo apt install g++        # 需要 sudo 权限（当前环境 sudo 需要密�
 - `enable_testing()` **必须留在顶层 `CMakeLists.txt`**：放在 `src/` 里会导致 `ctest` 在构建根目录看到 0 个测试（已实测踩过）。
 - `Threads::Threads` 挂在 `pure_nav_common_libs` 上并 PUBLIC 传递，全项目都能拿到 `-pthread`；不要在各模块重复链接。
 - `PURE_NAV_BIN_DIR` 由顶层定义，所有可执行目标都往这里输出；新增可执行目标不要再 `set_target_properties` 到别处。
-- 不要把 `CMakeLists.txt` 拆到 `src` 下一级以下（例如不要建 `src/common/shm/CMakeLists.txt`）；第三方库直接写在 `src/thirdparty/CMakeLists.txt` 里。
+- 不要把 `CMakeLists.txt` 拆到 `src` 下一级以下（例如不要建 `src/common/shm/CMakeLists.txt`）；第三方库由 `scripts/autoBuild.sh` 在 `build/thirdparty/` 独立编译，`src/thirdparty/CMakeLists.txt` 只负责接入，**不要**在那里 `add_subdirectory` 第三方源码。
