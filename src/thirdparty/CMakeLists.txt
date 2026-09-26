@@ -1,5 +1,4 @@
-# ============================================================================
-# thirdparty —— 第三方库接入层（只接入，不编译）
+# thirdparty —— 第三方库接入层
 #
 # 三个第三方库（Livox-SDK2 / Pangolin / matplotlib-cpp）**不在本项目构建树内编译**：
 #   scripts/autoBuild.sh thirdparty
@@ -14,7 +13,6 @@
 # 相关变量：
 #   PURE_NAV_THIRDPARTY_PREFIX    预编译第三方库安装前缀
 #   PURE_NAV_THIRDPARTY_REQUIRED  缺失时是否直接报错（默认 OFF，骨架阶段还没有模块引用）
-# ============================================================================
 
 set(PURE_NAV_THIRDPARTY_PREFIX "${CMAKE_BINARY_DIR}/thirdparty/install"
     CACHE PATH "预编译第三方库安装前缀（由 scripts/autoBuild.sh thirdparty 生成）")
@@ -35,7 +33,10 @@ if(NOT TARGET livox_sdk2)
     set(_livox_static "${PURE_NAV_THIRDPARTY_PREFIX}/lib/liblivox_lidar_sdk_static.a")
     if(EXISTS "${_livox_include}/livox_lidar_api.h" AND EXISTS "${_livox_static}")
         find_package(Threads REQUIRED)
-        add_library(livox_sdk2 STATIC IMPORTED)
+        # GLOBAL 必须加：imported target 默认只在**声明它的目录及其子目录**可见，
+        # 而使用方（src/driver 等）与 src/thirdparty 是兄弟目录，不加 GLOBAL
+        # 会出现"这里提示已接入、那边 if(TARGET livox_sdk2) 却是假"的怪象。
+        add_library(livox_sdk2 STATIC IMPORTED GLOBAL)
         set_target_properties(livox_sdk2 PROPERTIES
             IMPORTED_LOCATION "${_livox_static}"
             INTERFACE_INCLUDE_DIRECTORIES "${_livox_include}"
