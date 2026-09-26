@@ -43,7 +43,7 @@ pure-nav/
     ├── app/                    # 【已实现·占位】程序入口 -> bin/pure_nav
     ├── common/                 # 【部分实现】跨模块共享基础设施
     │   ├── shm/                #   共享内存 IPC（include/ + src/，空壳）
-    │   ├── common_libs/        #   通用算法库（filters 已建头文件）
+    │   ├── common_libs/        #   通用算法库（filters 已实现）
     │   └── type_alias/         #   全局类型别名（纯头文件 INTERFACE 库）
     ├── driver/                 # 【规划】硬件/传感器驱动
     ├── perception/             # 【规划】感知
@@ -54,9 +54,9 @@ pure-nav/
     ├── ui/                     # 【规划】调试可视化 -> bin/pure_nav_ui
     ├── sim/                    # 【规划】仿真 -> bin/pure_nav_sim
     ├── thirdparty/             # 【规划】第三方源码（写在本目录的 CMakeLists 里）
-    └── test/                   # 【规划】单元测试
-        ├── test_common/        #   common 模块测试
-        └── test_data/          #   测试数据（空）
+    └── test/                   # 【部分实现】单元测试
+        ├── test_common/        #   common 模块测试（3 个测试目标 + 迷你框架 test_check.hpp）
+        └── test_data/          #   测试数据（filters/*.csv + Python 生成脚本）
 ```
 
 ### CMakeLists 的分布规则（重要）
@@ -72,10 +72,10 @@ pure-nav/
 | 项 | 状态 |
 |---|---|
 | 骨架目录 | `src/` 下所有模块目录**均已放入 CMakeLists.txt**，因此已随 git 跟踪，clone 后骨架完整 |
-| `config/`、`autostart/`、`assets/img/`、`src/test/test_data/` | 仍为空目录，**未被 git 跟踪**（需要时补 `.gitkeep`） |
+| `config/`、`autostart/`、`assets/img/` | 仍为空目录，**未被 git 跟踪**（需要时补 `.gitkeep`） |
 | 构建链路 | 已打通（配置 + 构建 + ctest 均已验证，详见 5.1） |
 
-> Agent 注意：`config/`、`autostart/`、`assets/img/`、`src/test/test_data/` 这些空目录不会随 `git clone` 复制，需要时先 `mkdir -p` 或补 `.gitkeep`。
+> Agent 注意：`config/`、`autostart/`、`assets/img/` 这些空目录不会随 `git clone` 复制，需要时先 `mkdir -p` 或补 `.gitkeep`。（`src/test/test_data/` 已放入真实数据文件，不再是空目录。）
 
 ---
 
@@ -87,7 +87,7 @@ pure-nav/
 |---|---|---|---|---|
 | `app` | 进程入口、模块装配、主循环/线程编排、生命周期管理 | 命令行 / `config/` | 全部模块 | 占位（打印 Hello） |
 | `common/shm` | 共享内存布局、跨进程消息读写、无锁/加锁同步 | driver、app | planner、ui | 空壳 |
-| `common/common_libs` | 通用算法：滤波器（KF/EKF/一阶低通）等 | — | 所有模块 | 仅头文件骨架 |
+| `common/common_libs` | 通用算法：滤波器（滑动窗口均值/中值/一阶低通/一维 KF）等 | — | 所有模块 | filters 已实现并测试通过 |
 | `common/type_alias` | 全局类型别名、单位约定、枚举 | — | 所有模块 | 空 |
 | `driver` | 串口/CAN/网络通信、裁判系统、电机与传感器数据采集 | 硬件 | perception、odometry | 空 |
 | `perception` | 装甲板/目标检测、点云或图像处理 | driver | auto_aim、odometry | 空 |
@@ -98,7 +98,7 @@ pure-nav/
 | `ui` | 可视化、参数在线调节、日志呈现 | 全部模块 | 人 | 空 |
 | `sim` | 仿真环境、离线回放、算法验证 | 测试数据 | planner、controller | 空 |
 | `thirdparty` | 第三方库源码（header-only 或 vendored） | — | 全部模块 | 空 |
-| `test` | 单元测试与测试数据 | 被测模块 | CI/开发者 | 空壳 |
+| `test` | 单元测试与测试数据 | 被测模块 | CI/开发者 | 3 个测试目标（单元 / 数据驱动 / 下游引用）全部通过 |
 
 ### 3.1 推断的数据流（待确认）
 
@@ -193,9 +193,9 @@ ctest --test-dir build --output-on-failure
 |---|---|
 | `cmake -S . -B build`（默认选项） | ✅ 通过（CMake 4.2.3） |
 | `cmake --build build` | ✅ 通过，产出 `bin/pure_nav` + `build/lib/libpure_nav_{common_libs,shm}.a` |
-| `-DPURE_NAV_BUILD_TESTS=ON` | ✅ 通过，`ctest -N` 能发现 `test_common` |
+| `-DPURE_NAV_BUILD_TESTS=ON` | ✅ 通过，`ctest` 3 个测试全绿：`test_common`（22 用例/66 断言）、`test_filters_data`（CSV golden 比对）、`test_filters_consumer`（下游引用） |
 | `-DPURE_NAV_WARNINGS_AS_ERRORS=ON` | ✅ 通过，`-Werror` 正确注入 |
-| 真实 C++ 编译 | ⚠️ **未验证**：本机缺 C++ 前端（见 7.2），上述验证使用 `-fPIC/-fPIE/-Wall` 等标志检查 + 桩编译器完成，仅证明 CMake 逻辑正确，**未编译过真实代码** |
+| 真实 C++ 编译 | ✅ 已用免 root 手动解包的 g++-15（GNU 15.2.0）在 `-Werror` 下完整编译并运行测试；本机**系统级**仍无 `g++`（见 7.2） |
 
 ---
 
@@ -228,7 +228,10 @@ ctest --test-dir build --output-on-failure
 
 ### 6.3 新增测试
 
-在 `src/test/test_<suite>/` 放测试源码，然后在 `src/test/CMakeLists.txt` 里加 `add_executable` + `target_link_libraries` + `add_test` 三件套（照抄现有的 `test_common`）。
+1. 在 `src/test/test_<suite>/` 放测试源码，包含 `test_check.hpp`（src/test 内部共用的迷你测试框架：断言宏 + 失败统计 + `main` 收尾）；
+2. 在 `src/test/CMakeLists.txt` 里加 `add_executable` + `target_link_libraries` + `add_test` 三件套（照抄现有的 `test_common`）；
+3. 测试若用到 `<cmath>` 的 `sqrt`，记得链接 `libm`（`src/test/CMakeLists.txt` 里的 `PURE_NAV_TEST_EXTRA_LIBS`）；
+4. 数据驱动测试把数据放在 `src/test/test_data/`，并通过 `target_compile_definitions(... PURE_NAV_TEST_DATA_DIR=...)` 注入**绝对路径**，避免依赖运行时工作目录（照抄 `test_filters_data`）。
 
 ---
 
@@ -238,7 +241,7 @@ ctest --test-dir build --output-on-failure
 
 原先顶层 `CMakeLists.txt` 写的是 `add_subdictionary(src)`（非法命令且拼写错误）、且 `src/CMakeLists.txt` 与各模块 `CMakeLists.txt` 全部缺失。现已全部补齐并验证通过，见第 5 节与第 9 节。
 
-### 7.2 缺少 C++ 编译器 🔴（阻塞真实构建）
+### 7.2 系统缺少 C++ 前端 🟠（可绕过）
 
 ```
 CMake Error: No CMAKE_CXX_COMPILER could be found.
@@ -250,7 +253,7 @@ CMake Error: No CMAKE_CXX_COMPILER could be found.
 sudo apt install g++        # 需要 sudo 权限（当前环境 sudo 需要密码）
 ```
 
-> 这是**环境问题，不是代码问题**：CMakeLists 已用桩编译器验证逻辑无误，但仓库尚未用真实编译器编译过任何代码。
+> 这是**环境问题，不是代码问题**。在拿到 sudo 之前，可以免 root 绕过：`apt-get download g++-15-x86-64-linux-gnu` → `dpkg-deb -x` 解包取出 `cc1plus`，再用包装脚本调用系统 `gcc-15` 并加 `-B<cc1plus 目录> -lstdc++`，最后 `cmake -DCMAKE_CXX_COMPILER=<包装脚本>`。本节 5.1 的"真实 C++ 编译"一行就是这样验证的。装好 `g++` 后请恢复使用系统编译器。
 
 ### 7.3 脚本内容错误 🟠
 
@@ -261,8 +264,12 @@ sudo apt install g++        # 需要 sudo 权限（当前环境 sudo 需要密�
 
 ### 7.4 其他
 
-- `src/common/common_libs/src/filters.cpp` 为空，`filters.hpp` 只有空命名空间 → filters 功能尚未真正实现。
-- `src/test/test_common/test_filters.cpp` 仅一行 `#include "filters.hpp"`，**既无 `main()` 也无断言**，且未引入测试框架（GoogleTest/doctest/Catch2）。因此 `PURE_NAV_BUILD_TESTS` 默认 `OFF`；开启后 `test_common` 会因缺少 `main()` 而链接失败，需先补框架。
+- `src/common/common_libs/filters.hpp` 提供模板声明，`filters.cpp` 提供实现 + 对 `float`/`double` 的显式实例化：`SlidingWindowFilter`（滑动窗口均值，别名 `MovingAverageFilter`）、`MedianFilter`、`FirstOrderLowPassFilter`、`KalmanFilter1D`。
+- `src/test/test_common/test_filters.cpp`（单元）、`test_filters_data.cpp`（CSV 数据驱动）、`test_filters_consumer.cpp`（模拟下游模块引用）三个目标共用 `test_check.hpp` 里的迷你框架（断言 + 统计 + `main` 收尾，不依赖 GoogleTest/doctest/Catch2），失败时返回非 0，`ctest` 可直接判定。`PURE_NAV_BUILD_TESTS` 仍默认 `OFF`（按需开启）。
+- `src/test/test_data/filters/*.csv` 的 `expected` 列由 `src/test/test_data/generate_filters_data.py` 用**独立**参考实现生成（golden），C++ 侧实测最大误差 ≤ 9e-16。数据文件已提交，**构建不需要 Python**；改数据时重跑脚本即可（见 `src/test/test_data/README.md`）。
+- 数据驱动测试用**粗糙度**（一阶差分标准差）而非"与真值的 RMSE"评价降噪效果：平滑滤波器都存在相位滞后，阶跃/正弦上 filtered 的 RMSE 可能反而大于 raw。
+- `.clang-format` 的键值写成 `Key:Value`（冒号后缺空格），**当前不是合法 YAML**，`clang-format -i` 会直接报 `not a mapping`。修复前请手工遵守第 4 节格式约定。
+- C++11 下**不能**写 `namespace pure::common {`（那是 C++17 语法，`-Wpedantic`/`-Werror` 会报 `c++17-extensions`），必须写成嵌套的 `namespace pure { namespace common { ... } }`。
 - `src/{driver,perception,odometry,planner,controller,auto_aim}` 目前是 **INTERFACE 占位库**（无实现文件）。它们声明的 `include/` 目录尚不存在，因此没有任何 `-I` 生效；一旦放入源文件并按 6.1 改成 STATIC 即可。
 - `src/ui`、`src/sim` 尚无源文件，`add_executable` 需要至少一个源文件，因此这两个目标在各自的 `CMakeLists.txt` 中**以注释形式给出模板**，取消注释即可产出 `bin/pure_nav_ui` / `bin/pure_nav_sim`。
 - `src/thirdparty/CMakeLists.txt` 目前不含任何目标，只写了 vendored 库的接入示例。
@@ -272,10 +279,10 @@ sudo apt install g++        # 需要 sudo 权限（当前环境 sudo 需要密�
 ## 8. 给 Agent 的工作约定
 
 **应当：**
-- 动手前先读本文件第 7 节：**当前唯一的硬阻塞是本机缺 C++ 编译器**，装好后即可正常构建。
-- 保持 C++11、`namespace pure::*`、中文注释、`#pragma once` 的一致性。
+- 动手前先读本文件第 7 节：本机**系统级**缺 C++ 前端（见 7.2，可免 root 绕过），业务代码本身没有硬阻塞。
+- 保持 C++11、`namespace pure { namespace <模块> {`（C++11 不支持 `namespace a::b` 写法，见 7.4）、中文注释、`#pragma once` 的一致性。
 - 新增源码文件后**必须**把它加进所属模块 `CMakeLists.txt` 的源文件列表（本项目不用 GLOB 自动收集）；新增**模块**或新增**跨模块依赖**时同样要改 CMakeLists（见第 6、9 节）。
-- 修改后运行 `clang-format -i`，并按 Conventional Commits 提交。
+- 修改后运行 `clang-format -i`（注意 7.4：`.clang-format` 当前是非法 YAML，修好前请手工对齐格式），并按 Conventional Commits 提交。
 - 新增/变更模块时同步更新本文件的第 2、3、9 节。
 - 涉及模块间接口（尤其 `common/shm` 的共享内存布局）时，**先与用户确认**，不要自创约定。
 
@@ -320,6 +327,8 @@ sudo apt install g++        # 需要 sudo 权限（当前环境 sudo 需要密�
 | `pure_nav_ui` | `pure_nav_shm`, `pure_nav_odometry`, `pure_nav_perception`, `pure_nav_auto_aim`, `pure_nav_planner` |
 | `pure_nav_sim` | `pure_nav_common_libs`, `pure_nav_odometry`, `pure_nav_planner`, `pure_nav_controller` |
 | `test_common` | `pure_nav_common_libs`, `pure_nav_type_alias` |
+| `test_filters_data` | `pure_nav_common_libs`, `pure_nav_type_alias`（+ 编译定义 `PURE_NAV_TEST_DATA_DIR`）|
+| `test_filters_consumer` | **仅** `pure_nav_common_libs`（刻意不加 `-I`，用来验证 PUBLIC include 传递与显式实例化符号可链接）|
 
 依赖必须**单向无环**。若两个模块互相需要（典型如 planner ↔ controller 争用路径数据），不要互相 link，正确做法是把共享的数据结构下沉到 `common/type_alias` 或 `common/shm`，让双方都依赖下层。
 
@@ -336,7 +345,7 @@ sudo apt install g++        # 需要 sudo 权限（当前环境 sudo 需要密�
 | `src/driver/`…`src/auto_aim/CMakeLists.txt` | 每个文件一个 `INTERFACE` 占位库 + 其依赖；加入实现后就地改成 `STATIC` |
 | `src/ui/`、`src/sim/CMakeLists.txt` | 目前只有注释形式的 `add_executable` 模板 |
 | `src/thirdparty/CMakeLists.txt` | 目前无目标，只放 vendored 库接入示例 |
-| `src/test/CMakeLists.txt` | `test_common`（可执行）+ `add_test` 注册，受 `PURE_NAV_BUILD_TESTS` 门控 |
+| `src/test/CMakeLists.txt` | `test_common` / `test_filters_data` / `test_filters_consumer`（可执行）+ `add_test` 注册，受 `PURE_NAV_BUILD_TESTS` 门控 |
 
 **只有根文件用全局设置**（`CMAKE_RUNTIME_OUTPUT_DIRECTORY` 等）；模块文件不做重复设置，因此新增可执行目标会自动落到 `bin/`。
 

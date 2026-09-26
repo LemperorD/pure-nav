@@ -5,3 +5,7 @@ bin/*
 
 build/*
 !build/.gitkeep
+
+# Python（测试数据生成脚本的运行产物）
+__pycache__/
+*.pyc

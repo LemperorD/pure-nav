@@ -1,2 +1,2 @@
 cd ~/pure-nav
-cmake ..
+git push origin main
