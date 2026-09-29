@@ -1,14 +1,12 @@
 # pure-nav
-
 cmake_minimum_required(VERSION 3.22)
-
 project(pure_nav
     VERSION     0.1.0
-    DESCRIPTION "RoboMaster sentry navigation system (pure C++11)"
+    DESCRIPTION "RoboMaster sentry navigation system"
     LANGUAGES   CXX)
 
 # 语言标准
-set(CMAKE_CXX_STANDARD          11)
+set(CMAKE_CXX_STANDARD          17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS        OFF)
 
@@ -41,7 +39,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 # 选项
-option(PURE_NAV_BUILD_TESTS        "构建 src/test 下的单元测试"     OFF)
+option(PURE_NAV_BUILD_TESTS        "构建 src/test 下的单元测试"     ON)
 option(PURE_NAV_WARNINGS_AS_ERRORS "把编译警告当作错误 (-Werror)"   OFF)
 
 # enable_testing() 必须出现在顶层目录，否则 ctest 在构建根目录看不到任何测试
@@ -64,7 +62,8 @@ if(PURE_NAV_WARNINGS_AS_ERRORS)
     endif()
 endif()
 
-# 外部依赖（仅标准工具链，无 ROS）
+# 外部依赖
+find_package(OpenCV REQUIRED)
 find_package(Threads REQUIRED)
 
 # 源码
@@ -78,7 +77,8 @@ message(STATUS "  C++ 标准       : C++${CMAKE_CXX_STANDARD}")
 message(STATUS "  构建类型       : ${CMAKE_BUILD_TYPE}${CMAKE_CONFIGURATION_TYPES}")
 message(STATUS "  编译器         : ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 message(STATUS "  可执行输出     : ${PURE_NAV_BIN_DIR}")
-message(STATUS "  静态库输出     : ${CMAKE_BINARY_DIR}/lib")
+message(STATUS "  OpenCV         : ${OpenCV_VERSION}")
+message(STATUS "  静态/共享库输出: ${CMAKE_BINARY_DIR}/lib")
 message(STATUS "  构建测试       : ${PURE_NAV_BUILD_TESTS}")
 message(STATUS "=========================================================")
 message(STATUS "")

@@ -9,7 +9,7 @@
 # ============================================================================
 
 add_executable(pure_nav
-    main.cpp)
+    pure_nav.cpp)
 
 target_link_libraries(pure_nav PRIVATE
     pure_nav_driver

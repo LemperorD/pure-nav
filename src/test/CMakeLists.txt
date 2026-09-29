@@ -1,7 +1,6 @@
 # test —— 单元测试（由顶层选项 PURE_NAV_BUILD_TESTS 控制）
 
-# 数据驱动测试需要知道 test_data 的绝对路径（编译期注入，因此 ctest 从任意目录
-# 运行都能找到数据文件）
+# test_data 的绝对路径
 set(PURE_NAV_TEST_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test_data")
 
 # 测试的指标计算用到 <cmath> 的 std::sqrt，Linux 下必须显式链接 libm
@@ -46,3 +45,19 @@ target_link_libraries(test_filters_consumer PRIVATE
     ${PURE_NAV_TEST_EXTRA_LIBS})
 
 add_test(NAME test_filters_consumer COMMAND test_filters_consumer)
+
+# --- test_livox_driver：雷达驱动的离线单元测试 --------------------------------
+# 只链接 pure_nav_livox_driver：既验证驱动的公共头可用，也验证解码/组帧/队列
+# 这些纯逻辑在没有硬件的环境下能独立跑通。SDK 缺失时该目标仍应能编译并通过
+# （驱动退化为占位实现，但这些数据结构与算法不依赖 SDK）。
+add_executable(test_livox_driver
+    test_driver/test_livox_driver.cpp)
+
+target_include_directories(test_livox_driver PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_common")
+
+target_link_libraries(test_livox_driver PRIVATE
+    pure_nav_livox_driver
+    ${PURE_NAV_TEST_EXTRA_LIBS})
+
+add_test(NAME test_livox_driver COMMAND test_livox_driver)

@@ -11,8 +11,7 @@
 // （explicit instantiation）生成 float / double 两个版本的具体代码。
 // ============================================================================
 
-namespace pure {
-namespace common {
+namespace pure::common {
 
 // ----------------------------------------------------------------------------
 // SlidingWindowFilter
@@ -220,5 +219,4 @@ template class MedianFilter<float>;
 template class FirstOrderLowPassFilter<float>;
 template class KalmanFilter1D<float>;
 
-} // namespace common
-} // namespace pure
+} // namespace pure::common
