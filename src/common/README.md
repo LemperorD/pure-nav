@@ -29,15 +29,33 @@ double smoothed = filter.update(3.14);              // 在线
 std::vector<double> out = filter.apply(samples);    // 离线
 ```
 
+## shm
+
+基于 iceoryx 的进程间共享内存发布 / 订阅封装：`ShmRuntime` 负责进程级运行时
+初始化，`ShmPublisher<T>` / `ShmSubscriber<T>` 负责零拷贝收发，`FixedVector<T,N>`
+解决点云 / 图像这类"长度运行时才知道"的定容变长数据。雷达点云、IMU、相机图像
+都通过这里进共享内存，供各模块跨进程读取。
+
+```cpp
+pure::common::ShmRuntime::init("lidar_driver");                 // 多进程：连外部 iox-roudi
+pure::common::ShmPublisher<PointCloudMsg> pub({"sensor/lidar/points"});
+pub.publish([](PointCloudMsg& cloud) { /* 在共享内存里原地填充 */ });
+```
+
+详细的 API、消息类型约束、内存池配置与注意事项见
+[`shm/README.md`](shm/README.md)。
+
 ## 测试
 
-`src/test/test_common/` 下三个测试目标共用 `test_check.hpp` 迷你框架，不依赖第三方库：
+`src/test/test_common/` 下的测试目标共用 `test_check.hpp` 迷你框架：
 
 | 目标 | 内容 |
 |---|---|
 | `test_common` | 手工构造小数据的单元测试（边界、异常、多态、float 实例化） |
 | `test_filters_data` | 读取 `src/test/test_data/filters/*.csv` 的数据驱动测试：与 Python 参考实现的 golden 逐点比对 + 降噪/稳态指标 |
 | `test_filters_consumer` | 模拟下游模块引用：只链接 `pure_nav_common_libs`、不加 `-I`，验证 PUBLIC include 传递与显式实例化符号可链接 |
+| `test_shm` | 共享内存封装单元测试：进程内 RouDi，覆盖主题解析、IMU 往返、2 万点云零拷贝、队列语义 |
+| `test_shm_cross_process` | 跨进程验证：fork 出真正的 `iox-roudi` 与订阅者子进程，验证多进程共享内存 |
 
 ```bash
 cmake -S . -B build -DPURE_NAV_BUILD_TESTS=ON

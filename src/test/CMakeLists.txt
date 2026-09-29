@@ -61,3 +61,43 @@ target_link_libraries(test_livox_driver PRIVATE
     ${PURE_NAV_TEST_EXTRA_LIBS})
 
 add_test(NAME test_livox_driver COMMAND test_livox_driver)
+
+# --- test_shm：共享内存发布/订阅单元测试 --------------------------------------
+# 链接 pure_nav_shm_inproc：它在进程内启动一个 RouDi，因此测试不依赖外部
+# iox-roudi 守护进程，ctest 可以直接运行。iceoryx 未接入时该目标不存在。
+if(TARGET pure_nav_shm_inproc)
+    add_executable(test_shm
+        test_common/test_shm.cpp)
+
+    target_include_directories(test_shm PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_common")
+
+    target_link_libraries(test_shm PRIVATE
+        pure_nav_shm_inproc
+        ${PURE_NAV_TEST_EXTRA_LIBS})
+
+    add_test(NAME test_shm COMMAND test_shm)
+
+    # --- test_shm_cross_process：外部 iox-roudi + fork 子进程的真实跨进程测试 ---
+    # 只链接 pure_nav_shm（核心库），RouDi 由测试自己 fork 执行；路径在配置期
+    # 注入，运行期不存在时会明确 SKIP。
+    set(PURE_NAV_IOX_ROUDI "${PURE_NAV_THIRDPARTY_PREFIX}/bin/iox-roudi")
+
+    add_executable(test_shm_cross_process
+        test_common/test_shm_cross_process.cpp)
+
+    target_include_directories(test_shm_cross_process PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_common")
+
+    target_link_libraries(test_shm_cross_process PRIVATE
+        pure_nav_shm
+        ${PURE_NAV_TEST_EXTRA_LIBS})
+
+    if(EXISTS "${PURE_NAV_IOX_ROUDI}")
+        target_compile_definitions(test_shm_cross_process PRIVATE
+            PURE_NAV_IOX_ROUDI="${PURE_NAV_IOX_ROUDI}")
+    endif()
+
+    add_test(NAME test_shm_cross_process COMMAND test_shm_cross_process)
+    set_tests_properties(test_shm_cross_process PROPERTIES TIMEOUT 60)
+endif()

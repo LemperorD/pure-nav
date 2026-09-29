@@ -14,10 +14,12 @@
 #   build/                         本项目构建树（CMakeFiles/ lib/ compile_commands.json ...）
 #   bin/                           本项目可执行文件
 #
-# 三个第三方库（git submodule，源码在 src/thirdparty/）：
+# 四个第三方库（git submodule，源码在 src/thirdparty/）：
 #   Livox-SDK2      -> liblivox_lidar_sdk_{static,shared}.a/.so
 #   Pangolin        -> libpango_*.so（可视化）
 #   matplotlib-cpp  -> header-only，安装 matplotlibcpp.h + CMake 包配置
+#   iceoryx         -> libiceoryx_{posh,hoofs,platform}.a + iox-roudi（共享内存 IPC）
+#                      注意：构建入口是 iceoryx/iceoryx_meta（源码根目录没有 CMakeLists.txt）
 #
 # 用法：scripts/autoBuild.sh [命令] [选项]      （-h 查看完整帮助）
 # ============================================================================
@@ -40,7 +42,7 @@ TP_LOG_DIR="${TP_ROOT}/logs"              #   构建日志
 TP_ENV_FILE="${TP_ROOT}/env.sh"           #   生成的环境脚本
 
 SRC_TP_DIR="${ROOT_DIR}/src/thirdparty"   # 第三方库源码（submodule）
-TP_LIBS=(Livox-SDK2 Pangolin matplotlib-cpp)
+TP_LIBS=(Livox-SDK2 Pangolin matplotlib-cpp iceoryx)
 
 # ----------------------------------------------------------------------------
 # 默认参数
@@ -74,7 +76,7 @@ pure-nav 自动构建脚本
 
 命令:
   all          第三方库 + 本项目（默认；第三方库已就绪时自动跳过）
-  thirdparty   只构建三个第三方库（总是重新配置，增量编译）
+  thirdparty   只构建所有第三方库（总是重新配置，增量编译）
   project      只构建本项目（配置 -> 编译；产物在 build/ 与 bin/）
   clean        删除第三方库构建中间产物 build/thirdparty/build（保留 install）
   distclean    删除 build/ 与 bin/ 下全部产物（保留 .gitkeep）
@@ -381,6 +383,10 @@ tp_installed_one() {
             [ -f "${TP_PREFIX}/lib/cmake/Pangolin/PangolinConfig.cmake" ] ;;
         matplotlib-cpp)
             [ -f "${TP_PREFIX}/include/matplotlibcpp.h" ] ;;
+        iceoryx)
+            [ -f "${TP_PREFIX}/lib/libiceoryx_posh.a" ] \
+                && [ -f "${TP_PREFIX}/lib/cmake/iceoryx_posh/iceoryx_poshConfig.cmake" ] \
+                && [ -x "${TP_PREFIX}/bin/iox-roudi" ] ;;
         *) return 1 ;;
     esac
 }
@@ -398,6 +404,11 @@ tp_build_one() {
     local src="${SRC_TP_DIR}/${name}"
     local bdir="${TP_BUILD_DIR}/${name}"
     local log_file="${TP_LOG_DIR}/${name}.log"
+
+    # iceoryx 的构建入口在 iceoryx_meta/，源码根目录没有顶层 CMakeLists.txt
+    if [ "$name" = "iceoryx" ]; then
+        src="${SRC_TP_DIR}/iceoryx/iceoryx_meta"
+    fi
 
     [ -d "$src" ] || die "第三方库源码缺失：${src}
  请先执行：git submodule update --init --recursive"
@@ -426,6 +437,20 @@ tp_build_one() {
         matplotlib-cpp)
             # header-only：编译 examples 以验证头文件可用，安装头文件 + CMake 包配置
             compiler_scope="cxx-only"
+            ;;
+        iceoryx)
+            # iceoryx 顶层 project() 没有 VERSION：在已配置过的构建树上再次
+            # configure 时 CMAKE_PROJECT_VERSION 会变成空串，头文件会被装到
+            # include/iceoryx/v 而不是 include/iceoryx/v<版本>。每次清掉 CMake
+            # 缓存强制全新配置（dependencies/ 里已下载的 cpptoml 会保留）。
+            rm -rf "${bdir}/CMakeCache.txt" "${bdir}/CMakeFiles"
+            # 只构建 C++ 核心（runtime / posh / 静态库）+ 进程内 RouDi；
+            # 关闭 C 绑定、示例、introspection 与测试。
+            cfg+=("-DBUILD_SHARED_LIBS=OFF" "-DBINDING_C=OFF" "-DBUILD_TEST=OFF")
+            cfg+=("-DEXAMPLES=OFF" "-DINTROSPECTION=OFF")
+            # 保留 TOML 配置支持（用于给点云/图像配大内存池）；
+            # cpptoml 是 header-only，构建期由 iceoryx 自己下载。
+            cfg+=("-DTOML_CONFIG=ON" "-DDOWNLOAD_TOML_LIB=ON")
             ;;
     esac
 

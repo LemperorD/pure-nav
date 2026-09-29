@@ -1,0 +1,61 @@
+# ============================================================================
+# iceoryx RouDi 配置文件 —— 供 pure-nav 的多进程共享内存使用
+#
+# 用法：
+#   build/thirdparty/install/bin/iox-roudi -c config/iceoryx_roudi.toml
+#
+# 说明：
+#   * iceoryx 按 "chunk 大小" 分档预分配共享内存，发布消息时从**能装下
+#     sizeof(消息) 的最小档位**取一块。所以这里每一档的 size 必须 >= 实际
+#     消息大小，否则发布会返回 ShmPublishResult::NO_MEMPOOL。
+#   * 各档 size 必须严格递增；count 是同时存在的 chunk 上限，决定吞吐/队列深度。
+#   * 预分配总量会直接占用 /dev/shm（本文件约 254 MB）。机器人上请按实际
+#     传感器分辨率调整，先算清楚 sizeof(消息) 再配。
+#
+# 消息大小估算（sizeof + iceoryx chunk header 约 80 B）：
+#   IMU 样本                       ~ 64 B
+#   里程计 / 控制指令              ~ 数百 B
+#   Livox MID360 单帧点云(2 万点)  ~ 320 KB
+#   64 线雷达单帧(10 万点)         ~ 1.6 MB
+#   1080p 彩色图(1920*1080*3)      ~ 6.2 MB
+# ============================================================================
+
+[general]
+version = 1
+
+[[segment]]
+
+# 小块：IMU、状态、标志位
+[[segment.mempool]]
+size = 256
+count = 2000
+
+# 消息头、紧凑的位姿/控制消息
+[[segment.mempool]]
+size = 4096
+count = 1000
+
+# 小规模点云 / 降采样后的地图块
+[[segment.mempool]]
+size = 131072
+count = 200
+
+# 单帧雷达点云（Livox MID360 量级）
+[[segment.mempool]]
+size = 524288
+count = 50
+
+# 高线束点云 / 灰度图
+[[segment.mempool]]
+size = 4194304
+count = 20
+
+# 1080p 彩色图像
+[[segment.mempool]]
+size = 8388608
+count = 10
+
+# 大点云 / 高分辨率彩色图
+[[segment.mempool]]
+size = 16777216
+count = 4

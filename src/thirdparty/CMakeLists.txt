@@ -1,6 +1,6 @@
 # thirdparty —— 第三方库接入层
 #
-# 三个第三方库（Livox-SDK2 / Pangolin / matplotlib-cpp）**不在本项目构建树内编译**：
+# 第三方库（Livox-SDK2 / Pangolin / matplotlib-cpp / iceoryx）**不在本项目构建树内编译**：
 #   scripts/autoBuild.sh thirdparty
 # 会把它们各自独立配置、编译、安装到 build/thirdparty/install/，与项目模块的
 # build/lib/、build/src/ 产物完全分开（见脚本头部注释）。
@@ -9,6 +9,7 @@
 #   Pangolin        -> pango_core / pango_display / ...（PangolinConfig.cmake，无命名空间）
 #   matplotlib-cpp  -> matplotlib_cpp::matplotlib_cpp（header-only）
 #   Livox-SDK2      -> livox_sdk2（手工声明的 imported target）
+#   iceoryx         -> iceoryx_posh::iceoryx_posh / iceoryx_posh::iceoryx_posh_roudi
 #
 # 相关变量：
 #   PURE_NAV_THIRDPARTY_PREFIX    预编译第三方库安装前缀
@@ -44,7 +45,43 @@ if(NOT TARGET livox_sdk2)
     endif()
 endif()
 
+# --- iceoryx（共享内存零拷贝 IPC，导出 iceoryx_posh / iceoryx_hoofs / iceoryx_platform） ---
+# 由 scripts/autoBuild.sh thirdparty 构建；源码在 src/thirdparty/iceoryx，
+# 构建入口是 iceoryx_meta/（iceoryx 源码根目录没有顶层 CMakeLists.txt）。
+# 头文件装在 ${PREFIX}/include/iceoryx/v<版本>/，CMake 包装在 ${PREFIX}/lib/cmake。
+find_package(iceoryx_posh QUIET CONFIG)
+
+if(iceoryx_posh_FOUND)
+    # cpptoml 是 header-only 依赖，iceoryx_posh_config 的导入目标仍把 `cpptoml`
+    # 作为链接项导出，但我们的安装前缀没有导出该 target。补一个空 INTERFACE
+    # 目标，避免使用方链接 iceoryx_posh_config 时 CMake 把它当成 -lcpptoml。
+    if(NOT TARGET cpptoml)
+        add_library(cpptoml INTERFACE)
+    endif()
+
+    # IMPORTED target 默认只在声明它的目录及其子目录可见；iceoryx 的消费方
+    # （src/common、src/driver 等）与本目录是兄弟目录，必须提升为 GLOBAL，
+    # 否则那边 if(TARGET iceoryx_posh::iceoryx_posh) 会判断为假。
+    foreach(_iox_target IN ITEMS
+            iceoryx_posh::iceoryx_posh
+            iceoryx_posh::iceoryx_posh_roudi
+            iceoryx_posh::iceoryx_posh_config
+            iceoryx_posh::iceoryx_posh_gateway
+            iceoryx_hoofs::iceoryx_hoofs
+            iceoryx_platform::iceoryx_platform)
+        if(TARGET ${_iox_target})
+            set_target_properties(${_iox_target} PROPERTIES IMPORTED_GLOBAL TRUE)
+        endif()
+    endforeach()
+    unset(_iox_target)
+endif()
+
 # --- 配置摘要 ----------------------------------------------------------------
+if(TARGET iceoryx_posh::iceoryx_posh)
+    message(STATUS "  第三方库 iceoryx         : 已接入 (${iceoryx_posh_DIR})")
+else()
+    message(STATUS "  第三方库 iceoryx         : 未找到")
+endif()
 if(TARGET livox_sdk2)
     message(STATUS "  第三方库 Livox-SDK2     : 已接入 (${PURE_NAV_THIRDPARTY_PREFIX})")
 else()
@@ -64,7 +101,8 @@ else()
 endif()
 
 if(PURE_NAV_THIRDPARTY_REQUIRED)
-    if(NOT TARGET livox_sdk2 OR NOT Pangolin_FOUND OR NOT matplotlib_cpp_FOUND)
+    if(NOT TARGET livox_sdk2 OR NOT Pangolin_FOUND OR NOT matplotlib_cpp_FOUND
+       OR NOT TARGET iceoryx_posh::iceoryx_posh)
         message(FATAL_ERROR
             "第三方库不完整。请先执行：scripts/autoBuild.sh thirdparty\n"
             "安装前缀：${PURE_NAV_THIRDPARTY_PREFIX}")

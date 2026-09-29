@@ -11,3 +11,7 @@ wget http://fishros.com/install -O fishros && . fishros
 ```bash
 git submodule update --init --recursive
 ```
+
+```bash
+./scripts/autoBuild.sh
+```
