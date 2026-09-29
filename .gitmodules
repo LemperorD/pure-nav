@@ -10,3 +10,6 @@
 [submodule "src/thirdparty/acados"]
 	path = src/thirdparty/acados
 	url = https://github.com/acados/acados.git
+[submodule "src/thirdparty/iceoryx"]
+	path = src/thirdparty/iceoryx
+	url = https://github.com/eclipse-iceoryx/iceoryx.git
