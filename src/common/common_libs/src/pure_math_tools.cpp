@@ -16,7 +16,15 @@ inline double sigmoid(double x) {
     return 1.0 / (1.0 + std::exp(-x));
 }
 
-inline double unwarped_angle(double angle) {
+inline double leaky_ReLU(double x) {
+    return (x > 0.0) ? x : 0.01 * x;
+}
+
+inline double SiLU(double x) {
+    return x / (1.0 + std::exp(-x));
+}
+
+inline double unwarp_angle(double angle) {
     while (angle > M_PI) {
         angle -= 2.0 * M_PI;
     }
