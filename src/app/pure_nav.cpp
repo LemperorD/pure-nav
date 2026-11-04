@@ -1,8 +1,2 @@
-// 程序入口
-
-#include <iostream>
-
-int main() {
-  std::cout << "Hello, pure-nav!" << std::endl;
-  return 0;
-}
+#include "pure_nav/simulation_cli.hpp"
+int main(int argc, char **argv) { return runSimulation(argc, argv); }

@@ -1,10 +1,11 @@
 # ============================================================================
 # common —— 通用基础设施（所有模块的公共依赖）
 #
-# 本文件在 src 下一级收口，三个子功能的目标全部写在这里：
+# 本文件在 src 下一级收口，子功能的目标全部写在这里：
 #   type_alias/   纯头文件（INTERFACE 库）
 #   common_libs/  通用算法库（STATIC 库）
 #   shm/          基于 iceoryx 的共享内存 IPC（STATIC 库）
+#   ring_buffer/  进程内固定容量 FIFO（STATIC 库）
 # ============================================================================
 
 # --- type_alias：全局类型别名 / 单位约定 / 枚举，纯头文件，无 .cpp -------------
@@ -26,6 +27,14 @@ target_link_libraries(pure_nav_common_libs
     PUBLIC
         pure_nav_type_alias
         Threads::Threads)
+
+# --- ring_buffer：进程内固定容量 FIFO ---------------------------------------
+add_library(pure_nav_ring_buffer STATIC
+    ring_buffer/ring_buffer.cpp)
+
+target_include_directories(pure_nav_ring_buffer PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/ring_buffer")
+target_compile_features(pure_nav_ring_buffer PUBLIC cxx_std_17)
 
 # --- shm：基于 iceoryx 的共享内存 IPC ----------------------------------------
 # shm.hpp 封装了 iceoryx 的运行时 / 发布 / 订阅；主题与消息布局一旦确定即为

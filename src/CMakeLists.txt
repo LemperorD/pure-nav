@@ -9,10 +9,16 @@ add_subdirectory(planner)        # 规划
 add_subdirectory(controller)     # 控制
 add_subdirectory(auto_aim)       # 自瞄
 add_subdirectory(ui)             # 调试可视化
+add_subdirectory(decision)
+add_subdirectory(navigation)
 add_subdirectory(sim)            # 仿真
 add_subdirectory(app)            # 主程序
 
 # 单元测试：默认关闭，用 -DPURE_NAV_BUILD_TESTS=ON 开启
 if(PURE_NAV_BUILD_TESTS)
     add_subdirectory(test)
+endif()
+
+if(PURE_NAV_BUILD_TESTS)
+    add_subdirectory(test/navigation)
 endif()

@@ -17,7 +17,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # 输出目录：可执行文件统一放 bin/，静态库放 build/lib/
-set(PURE_NAV_BIN_DIR "${CMAKE_CURRENT_SOURCE_DIR}/bin")
+set(PURE_NAV_BIN_DIR "${CMAKE_CURRENT_SOURCE_DIR}/bin" CACHE PATH "可执行文件输出目录")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PURE_NAV_BIN_DIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
@@ -60,6 +60,24 @@ if(PURE_NAV_WARNINGS_AS_ERRORS)
     else()
         add_compile_options(-Werror)
     endif()
+endif()
+
+# Standalone migration build: no ROS, OpenCV, hardware SDK or GUI required.
+option(PURE_NAV_STANDALONE "仅构建无 ROS 导航与仿真" OFF)
+if(PURE_NAV_STANDALONE)
+    find_package(Threads REQUIRED)
+    add_subdirectory(src/perception)
+    add_subdirectory(src/odometry)
+    add_subdirectory(src/planner)
+    add_subdirectory(src/controller)
+    add_subdirectory(src/decision)
+    add_subdirectory(src/navigation)
+    add_subdirectory(src/sim)
+    add_subdirectory(src/app)
+    if(PURE_NAV_BUILD_TESTS)
+        add_subdirectory(src/test/navigation)
+    endif()
+    return()
 endif()
 
 # 外部依赖

@@ -1,0 +1,6 @@
+add_library(pure_nav_navigation STATIC src/navigation.cpp)
+target_include_directories(pure_nav_navigation PUBLIC include)
+target_link_libraries(pure_nav_navigation PUBLIC pure_nav_planner pure_nav_controller pure_nav_perception pure_nav_odometry pure_nav_decision)
+find_package(yaml-cpp REQUIRED)
+target_sources(pure_nav_navigation PRIVATE src/map_io.cpp)
+target_link_libraries(pure_nav_navigation PUBLIC yaml-cpp)

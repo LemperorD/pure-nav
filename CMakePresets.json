@@ -1,0 +1,35 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "standalone",
+      "displayName": "ROS-free navigation acceptance",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/standalone",
+      "cacheVariables": {
+        "PURE_NAV_STANDALONE": "ON",
+        "PURE_NAV_BUILD_TESTS": "ON",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "sanitized",
+      "inherits": "standalone",
+      "binaryDir": "${sourceDir}/build/sanitized",
+      "cacheVariables": {
+        "PURE_NAV_BIN_DIR": "${sourceDir}/build/sanitized/bin",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_FLAGS": "-fsanitize=address,undefined -fno-omit-frame-pointer",
+        "CMAKE_EXE_LINKER_FLAGS": "-fsanitize=address,undefined"
+      }
+    }
+  ],
+  "buildPresets": [
+    {"name": "standalone", "configurePreset": "standalone", "jobs": 4},
+    {"name": "sanitized", "configurePreset": "sanitized", "jobs": 4}
+  ],
+  "testPresets": [
+    {"name": "standalone", "configurePreset": "standalone", "output": {"outputOnFailure": true}},
+    {"name": "sanitized", "configurePreset": "sanitized", "output": {"outputOnFailure": true}}
+  ]
+}

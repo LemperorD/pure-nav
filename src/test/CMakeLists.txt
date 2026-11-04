@@ -1,5 +1,9 @@
 # test —— 单元测试（由顶层选项 PURE_NAV_BUILD_TESTS 控制）
 
+add_executable(test_ring_buffer test_common/test_ring_buffer.cpp)
+target_link_libraries(test_ring_buffer PRIVATE pure_nav_ring_buffer)
+add_test(NAME test_ring_buffer COMMAND test_ring_buffer)
+
 # test_data 的绝对路径
 set(PURE_NAV_TEST_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test_data")
 

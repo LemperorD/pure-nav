@@ -1,0 +1,776 @@
+[
+  {
+    "source": "src/guga_planner/jps_planner/src/jps_algorithm.cpp",
+    "destination": "src/planner/jps/src/jps_algorithm.cpp",
+    "source_sha256": "2bd077072799d4ddab9b129170592992934a950db432d9d7e930bc7bae9b3186",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/jps_planner/src/detail/jps_obstacle.cpp",
+    "destination": "src/planner/jps/src/detail/jps_obstacle.cpp",
+    "source_sha256": "470482a321440474616836f9ecbccef3723b567cbefc15a4f1438c2f2875e1c4",
+    "adapted": true
+  },
+  {
+    "source": "src/guga_planner/jps_planner/src/detail/jps_jump.cpp",
+    "destination": "src/planner/jps/src/detail/jps_jump.cpp",
+    "source_sha256": "6e691236b2c86778145e152473fec9ac012bfdb39188e5569d53484729ab2253",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/jps_planner/src/detail/jps_neighbor.cpp",
+    "destination": "src/planner/jps/src/detail/jps_neighbor.cpp",
+    "source_sha256": "8d1d81995ee013b573fcd722864878cd7e62fbc16111227c43b5cc3791822229",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/jps_planner/test/test_jps.cpp",
+    "destination": "src/planner/jps/test/test_jps.cpp",
+    "source_sha256": "275dee6e24a5b14c6074547be985a802e7ac0011f0bead550035a3e7b81b924f",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/jps_planner/test/test_helpers.hpp",
+    "destination": "src/planner/jps/test/test_helpers.hpp",
+    "source_sha256": "bb06ffbe64b0f88b3dabbb4a2698eabd489ac12e5c8f6d148430430f822c70f6",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/jps_planner/include/jps_planner/jps_algorithm.hpp",
+    "destination": "src/planner/jps/include/jps_planner/jps_algorithm.hpp",
+    "source_sha256": "a21dff5b3aaa00a0f4f67ee2b0c2167d776e4dc110f5a9a2790e852b4a7d51d2",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/jps_planner/include/jps_planner/jps_node.hpp",
+    "destination": "src/planner/jps/include/jps_planner/jps_node.hpp",
+    "source_sha256": "d0d181120558103f8cc562cf8ae881ba097fad67ba9e20f3603ad86ea2f361cb",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_controller/pb_omni_pid_pursuit_controller/include/pb_omni_pid_pursuit_controller/core/pid.hpp",
+    "destination": "src/controller/omni_pid/include/pb_omni_pid_pursuit_controller/core/pid.hpp",
+    "source_sha256": "bf09e9e4512899cf9c5e2a882cc8d8f92d01bf1a9f56b0e008a4b3e9477e8eb7",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_controller/pb_omni_pid_pursuit_controller/include/pb_omni_pid_pursuit_controller/core/types.hpp",
+    "destination": "src/controller/omni_pid/include/pb_omni_pid_pursuit_controller/core/types.hpp",
+    "source_sha256": "c7054180b40f9df59ba66b54f2b32ec8396200d3bfa10e397368c7746898e73b",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_controller/pb_omni_pid_pursuit_controller/src/core/pid.cpp",
+    "destination": "src/controller/omni_pid/src/core/pid.cpp",
+    "source_sha256": "c4f788420d34e34926c90fdbf06ca0d37c7b6347abf78f683f9dace0a678d788",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_controller/pb_omni_pid_pursuit_controller/test/test_pid.cpp",
+    "destination": "src/controller/omni_pid/test/test_pid.cpp",
+    "source_sha256": "84284a1eafdcfbe3d22245c154852034f550d4e2f829242ea4c22a150b1f9639",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_controller/pb_omni_pid_pursuit_controller/test/test_types.cpp",
+    "destination": "src/controller/omni_pid/test/test_types.cpp",
+    "source_sha256": "95858dfdfb2608bf6866eb030effc9c73049ca9e619e4a903892c6c69335468b",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_controller/pb_omni_pid_pursuit_controller/LICENSE",
+    "destination": "src/controller/omni_pid/LICENSE",
+    "source_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_decision/simple_decision/include/simple_decision/core/environment_context.hpp",
+    "destination": "src/decision/include/simple_decision/core/environment_context.hpp",
+    "source_sha256": "72d0f2c39bc213aa3157487629f9ac2905eacc756d2443238ea15b5d7163d234",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_decision/simple_decision/include/simple_decision/core/types.hpp",
+    "destination": "src/decision/include/simple_decision/core/types.hpp",
+    "source_sha256": "e5e70b1725668001f612b9b0b46eb74b3e777a10faf3f7eed0a936989ea6fe17",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_decision/simple_decision/include/simple_decision/core/decision.hpp",
+    "destination": "src/decision/include/simple_decision/core/decision.hpp",
+    "source_sha256": "bf0ef7b311c7c75637f49573d82210b79bbde00c7331659e3e732c6a4718861a",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_decision/simple_decision/src/core/decision.cpp",
+    "destination": "src/decision/src/core/decision.cpp",
+    "source_sha256": "efdb9b3e682a5ef59b81006088224ff749f76d61c70d8781292704b370637156",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_decision/simple_decision/src/core/context_environment_context.cpp",
+    "destination": "src/decision/src/core/context_environment_context.cpp",
+    "source_sha256": "f20ba89aea26115703cca88baf5a6f96bfb50f9c50e774c7ae4d0ae4df9beffe",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_decision/simple_decision/test/test_decision.cpp",
+    "destination": "src/decision/test/test_decision.cpp",
+    "source_sha256": "a06c265da2d8aa5b7d1cbee98d94e04f59849f952cd415a089051f5d45c9ecab",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_decision/simple_decision/test/test_environment_context.cpp",
+    "destination": "src/decision/test/test_environment_context.cpp",
+    "source_sha256": "939f684233a60198fe4747f0b982f415aa9e2969e60e475a36f1a9dc731faf59",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_decision/simple_decision/test/test_helpers.hpp",
+    "destination": "src/decision/test/test_helpers.hpp",
+    "source_sha256": "55076d038b8d680259de53094182cf60b9bf214c2c9839809ee7c50aeafe3454",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_perception/terrain_analysis/include/terrain_analysis/config.hpp",
+    "destination": "src/perception/terrain/include/terrain_analysis/config.hpp",
+    "source_sha256": "0a935bb93173bb3be37022c2eefee48f6f2c8513f6239c54e2e3b1952d9d20a1",
+    "adapted": true
+  },
+  {
+    "source": "src/guga_perception/terrain_analysis/include/terrain_analysis/grid.hpp",
+    "destination": "src/perception/terrain/include/terrain_analysis/grid.hpp",
+    "source_sha256": "47ac4727322cb4d456f3e80d1133910d6baa0c8a1e16fcaa85a5c8fabf6c16cb",
+    "adapted": true
+  },
+  {
+    "source": "src/guga_perception/terrain_analysis/include/terrain_analysis/grid_utils.hpp",
+    "destination": "src/perception/terrain/include/terrain_analysis/grid_utils.hpp",
+    "source_sha256": "7b784f935e6a8df84713ef17addc878b36bc5121d89736fd3649674cfaff33a8",
+    "adapted": true
+  },
+  {
+    "source": "src/guga_perception/terrain_analysis/include/terrain_analysis/persistent_voxel_map.hpp",
+    "destination": "src/perception/terrain/include/terrain_analysis/persistent_voxel_map.hpp",
+    "source_sha256": "dc44de6ee8d12e529de4db76d92490ce46abb72621893a0bad9739374cff6c90",
+    "adapted": true
+  },
+  {
+    "source": "src/guga_perception/terrain_analysis/include/terrain_analysis/per_frame_height_map.hpp",
+    "destination": "src/perception/terrain/include/terrain_analysis/per_frame_height_map.hpp",
+    "source_sha256": "ff296406018b1ff123e66882e63db6f3409143057408738ccb8a600eb7453610",
+    "adapted": true
+  },
+  {
+    "source": "src/guga_perception/terrain_analysis/src/persistent_voxel_map.cpp",
+    "destination": "src/perception/terrain/src/persistent_voxel_map.cpp",
+    "source_sha256": "5a5be63ea64775363ba628777293c6414436fa365eddca9c5863231d66790339",
+    "adapted": true
+  },
+  {
+    "source": "src/guga_perception/terrain_analysis/src/per_frame_height_map.cpp",
+    "destination": "src/perception/terrain/src/per_frame_height_map.cpp",
+    "source_sha256": "d93854cd53abaa6930aab1260f7d5c9677d02f174e99bc355838b76f5d629e52",
+    "adapted": true
+  },
+  {
+    "source": "src/guga_common/include/guga_common/geometry.hpp",
+    "destination": "src/perception/terrain/include/guga_common/geometry.hpp",
+    "source_sha256": "1a88360c62f59ea16862beb70da678fbc89615193ee5ab62c4a9543c81aab0f4",
+    "adapted": false
+  },
+  {
+    "source": "LICENSE",
+    "destination": "assets/licenses/guganav-LICENSE",
+    "source_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_perception/terrain_analysis/test/test_algorithm.cpp",
+    "destination": "src/perception/terrain/test/test_algorithm.cpp",
+    "source_sha256": "492da80a7dbb2fb6f9c6e2fd7ba6eb87f9a6b282cdffd7a1bb4a98ef25dab7a5",
+    "adapted": true
+  },
+  {
+    "source": "src/guga_perception/terrain_analysis/test/test_helpers.hpp",
+    "destination": "src/perception/terrain/test/test_helpers.hpp",
+    "source_sha256": "bae85d421b24bab5d8d57549f4a43c510a5c56ed02c1c35c35c8a0f14dcd5207",
+    "adapted": true
+  },
+  {
+    "source": "src/guga_perception/terrain_analysis/test/test_doubles.hpp",
+    "destination": "src/perception/terrain/test/test_doubles.hpp",
+    "source_sha256": "7816faa17d41e400dff0cd738543cf0e270ff3b3452cc854953ddf700376e84f",
+    "adapted": true
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/include/bspline_optimizer/bspline_optimizer.hpp",
+    "destination": "src/planner/bspline/include/bspline_optimizer/bspline_optimizer.hpp",
+    "source_sha256": "1bd77c1c0c93d49f4fb470bf1e572834a6483b0f2e130eebb0a96d53cdbc7892",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/include/bspline_optimizer/basis_cache.hpp",
+    "destination": "src/planner/bspline/include/bspline_optimizer/basis_cache.hpp",
+    "source_sha256": "a2c0ef58d055caf4e7ca2c1915c70965e18b1141db2a92a227e51798970a0f26",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/include/bspline_optimizer/detail/cost_cache.hpp",
+    "destination": "src/planner/bspline/include/bspline_optimizer/detail/cost_cache.hpp",
+    "source_sha256": "cd02efa7e3f3a0c915b96997678b7121fa999934834122999cade421b23a920d",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/include/bspline_optimizer/detail/gradient_descent.hpp",
+    "destination": "src/planner/bspline/include/bspline_optimizer/detail/gradient_descent.hpp",
+    "source_sha256": "acbbbf5f69a170f1ec2986237acea858a90674710bed10890840e84de90666b3",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/include/bspline_optimizer/detail/grid_utils.hpp",
+    "destination": "src/planner/bspline/include/bspline_optimizer/detail/grid_utils.hpp",
+    "source_sha256": "38b74ed0dde50dfb5fedffd51bd00616b44dca842b9c469bfc23db8dce27e2fb",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/include/bspline_optimizer/detail/cost_function.hpp",
+    "destination": "src/planner/bspline/include/bspline_optimizer/detail/cost_function.hpp",
+    "source_sha256": "fd818d0dc90b02ec128dbcdece5d1ce091e84e85bb745da2fe6fc992204c92c1",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/include/bspline_optimizer/detail/esdf_utils.hpp",
+    "destination": "src/planner/bspline/include/bspline_optimizer/detail/esdf_utils.hpp",
+    "source_sha256": "0ffd37203df2d5008211be291e897b1946c495b26ea829d9b7b7fc96124640c8",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/src/bspline_optimizer.cpp",
+    "destination": "src/planner/bspline/src/bspline_optimizer.cpp",
+    "source_sha256": "661d526bf9557a63d35ae8390eb38c899a20804b5c326808a3981d5f7ef8de04",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/src/detail/cost_cache.cpp",
+    "destination": "src/planner/bspline/src/detail/cost_cache.cpp",
+    "source_sha256": "c82ca9365645f1c733fc155caf064c9a46acbc55d43ff33c250957977c95d113",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/src/detail/cost_function.cpp",
+    "destination": "src/planner/bspline/src/detail/cost_function.cpp",
+    "source_sha256": "9977d438561f929309d78b1641ff679c67bb68374f78470841a57bd68796cd67",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/src/detail/esdf_utils.cpp",
+    "destination": "src/planner/bspline/src/detail/esdf_utils.cpp",
+    "source_sha256": "42f15b9fbe460c1376842bbd6927785e9e1c18f271a9ccb2ed598036aa811a58",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/src/detail/grid_utils.cpp",
+    "destination": "src/planner/bspline/src/detail/grid_utils.cpp",
+    "source_sha256": "0b8124ef04cbb6e51122fb5ef9ea54ac506c40154a2220c0240f296c7be79952",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/src/detail/basis.cpp",
+    "destination": "src/planner/bspline/src/detail/basis.cpp",
+    "source_sha256": "ddff8db661ab43023115718e77e12d20e82d46de7859d511bb27dd72891ab283",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/src/detail/gradient_descent.cpp",
+    "destination": "src/planner/bspline/src/detail/gradient_descent.cpp",
+    "source_sha256": "bc604e2982514c629874c1126c5eb0adab0d7b9d957c958a7398263f15c24547",
+    "adapted": true
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/test_bspline.cpp",
+    "destination": "src/planner/bspline/test/test_bspline.cpp",
+    "source_sha256": "56c23a410ef1b755ffcd60578df3660d3d8bacdebe3bc86998d796ba9395d4d6",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s4_obstaclefield_ctrl_pts.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s4_obstaclefield_ctrl_pts.dat",
+    "source_sha256": "a6e632d23b3acdd785802d551ac3cd72c787b661ad5d7ab401e7d1d8dc49e739",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s3_maze_curvature.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s3_maze_curvature.csv",
+    "source_sha256": "2fd29981c5c2f23dbeecdb90a3b8569332a84ce68e4e32b4487978f1637a9c34",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s3_maze_ctrl_pts.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s3_maze_ctrl_pts.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s5_large_empty_startgoal.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s5_large_empty_startgoal.dat",
+    "source_sha256": "cb1568ac71a3ec5c2ca1e08e6567e7e99a4652e34f94cbba1ee3fdc9e1002f29",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s3_maze_startgoal.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s3_maze_startgoal.dat",
+    "source_sha256": "fec9f5ed5d1b1483dd1f333157a93fd68eb3eca2c954ada034fff5d2ed549bc7",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s1_empty_diag_grid.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s1_empty_diag_grid.dat",
+    "source_sha256": "bcef85ed05981c7fd8260a8953b8303ca15bfff21d83d417c6060461ee3df095",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s4_obstaclefield_curvature.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s4_obstaclefield_curvature.csv",
+    "source_sha256": "000c5c300a48b6388e5d9a04e8cbbe867bc01c5a27d24ac3d6d2cec22099576c",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s1_empty_diag_orig_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s1_empty_diag_orig_path.dat",
+    "source_sha256": "2c8a9adaeae8de530e6756c6ddf05fde7a90ceb9b2ba69b635a8e5c31d263727",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s5_large_empty_curvature.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s5_large_empty_curvature.csv",
+    "source_sha256": "2fd29981c5c2f23dbeecdb90a3b8569332a84ce68e4e32b4487978f1637a9c34",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s6_costband_curvature.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s6_costband_curvature.csv",
+    "source_sha256": "2fd29981c5c2f23dbeecdb90a3b8569332a84ce68e4e32b4487978f1637a9c34",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s4_obstaclefield_orig_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s4_obstaclefield_orig_path.dat",
+    "source_sha256": "42983c46732ac6d9f976fefa8f78ccfa08ed3591bb146dad02fb20d113b33f5a",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s2_wall_gap_startgoal.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s2_wall_gap_startgoal.dat",
+    "source_sha256": "0762d824c61eb01ce06bb3640b7571745171a996f5fbd3748e9bf98e73f9d47a",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s2_wall_gap_ctrl_pts.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s2_wall_gap_ctrl_pts.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s3_maze_smooth_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s3_maze_smooth_path.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s2_wall_gap_curvature.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s2_wall_gap_curvature.csv",
+    "source_sha256": "2fd29981c5c2f23dbeecdb90a3b8569332a84ce68e4e32b4487978f1637a9c34",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s2_wall_gap_smooth_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s2_wall_gap_smooth_path.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s5_large_empty_smooth_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s5_large_empty_smooth_path.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s3_maze_orig_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s3_maze_orig_path.dat",
+    "source_sha256": "24f28d80d6f235cf6001db7e26e7a0edcf58ac73af9126fe180f5278c915c83d",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s1_empty_diag_smooth_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s1_empty_diag_smooth_path.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s6_costband_startgoal.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s6_costband_startgoal.dat",
+    "source_sha256": "f0515e077db8212071c0e3412707865e00fb9021027d58a9ff1354d62d26b0a6",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s1_empty_diag_ctrl_pts.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s1_empty_diag_ctrl_pts.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s6_costband_grid.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s6_costband_grid.dat",
+    "source_sha256": "2af372b83a0c68c4831ba74e909c79b140fb44f5b17f3893d76053b7373ffd48",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s6_costband_smooth_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s6_costband_smooth_path.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s5_large_empty_ctrl_pts.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s5_large_empty_ctrl_pts.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/benchmark.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/benchmark.csv",
+    "source_sha256": "cb34bb0bc62a289fa18bd8702a2c6c420534539701d26ea72601eddca848c3bc",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s6_costband_orig_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s6_costband_orig_path.dat",
+    "source_sha256": "a5adea925601a745c482a69323725df236439b8696df649bb5acaaabb81d720e",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s3_maze_grid.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s3_maze_grid.dat",
+    "source_sha256": "595c1a17d819b4768931b9882eeb3347103ab557f1f87e56bc7ec9486cf821db",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s1_empty_diag_startgoal.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s1_empty_diag_startgoal.dat",
+    "source_sha256": "a8e550ecaba18ba885662bcc69998e80e2d02a178f68cb48dfa9127594a216d6",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s5_large_empty_orig_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s5_large_empty_orig_path.dat",
+    "source_sha256": "c4d6d4f334a756bc78631145faa58723131cc0e66cdcd98525c15cc7b09f9e56",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s1_empty_diag_curvature.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s1_empty_diag_curvature.csv",
+    "source_sha256": "2fd29981c5c2f23dbeecdb90a3b8569332a84ce68e4e32b4487978f1637a9c34",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s2_wall_gap_orig_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s2_wall_gap_orig_path.dat",
+    "source_sha256": "9da29a66865c49e794f44289fd0e0851842e7212f9b84adcf66da137ba8a24ed",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s5_large_empty_grid.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s5_large_empty_grid.dat",
+    "source_sha256": "5d76ce0af2120c600dbce507a49b6fe3553bd655986b2339aed4a2a8463ba30b",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s2_wall_gap_grid.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s2_wall_gap_grid.dat",
+    "source_sha256": "fb4be5bd51380d44f258075e1702b746746fc4a7863d414ccdc89a5464bdbef1",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s6_costband_ctrl_pts.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s6_costband_ctrl_pts.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s4_obstaclefield_grid.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s4_obstaclefield_grid.dat",
+    "source_sha256": "b35459303c3a750ab9b63972cd3ae97859e91b381c96e6adba31767f8bb08186",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s4_obstaclefield_startgoal.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s4_obstaclefield_startgoal.dat",
+    "source_sha256": "958b0df8f88bffad67069c5c25c929206e5e8924bac1ea6cd3706bab83fcbdc8",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/s4_obstaclefield_smooth_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/s4_obstaclefield_smooth_path.dat",
+    "source_sha256": "343c5dff4e8bccd89cd7e56ebd274393544928817ab407856297ba05fff31c5f",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s4_obstaclefield_ctrl_pts.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s4_obstaclefield_ctrl_pts.dat",
+    "source_sha256": "4a6fcf63d0be092bec038089feb28b869191195f86551f9255c9bcfdf7e169fb",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s3_maze_curvature.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s3_maze_curvature.csv",
+    "source_sha256": "2fd29981c5c2f23dbeecdb90a3b8569332a84ce68e4e32b4487978f1637a9c34",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s3_maze_ctrl_pts.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s3_maze_ctrl_pts.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s5_large_empty_startgoal.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s5_large_empty_startgoal.dat",
+    "source_sha256": "cb1568ac71a3ec5c2ca1e08e6567e7e99a4652e34f94cbba1ee3fdc9e1002f29",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s3_maze_startgoal.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s3_maze_startgoal.dat",
+    "source_sha256": "fec9f5ed5d1b1483dd1f333157a93fd68eb3eca2c954ada034fff5d2ed549bc7",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s1_empty_diag_grid.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s1_empty_diag_grid.dat",
+    "source_sha256": "bcef85ed05981c7fd8260a8953b8303ca15bfff21d83d417c6060461ee3df095",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s4_obstaclefield_curvature.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s4_obstaclefield_curvature.csv",
+    "source_sha256": "8f88242243d0034c486a3dcec9a73120569ff1c349d87aa957a36e3ff35fb173",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s1_empty_diag_orig_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s1_empty_diag_orig_path.dat",
+    "source_sha256": "2c8a9adaeae8de530e6756c6ddf05fde7a90ceb9b2ba69b635a8e5c31d263727",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s5_large_empty_curvature.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s5_large_empty_curvature.csv",
+    "source_sha256": "2fd29981c5c2f23dbeecdb90a3b8569332a84ce68e4e32b4487978f1637a9c34",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s6_costband_curvature.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s6_costband_curvature.csv",
+    "source_sha256": "2fd29981c5c2f23dbeecdb90a3b8569332a84ce68e4e32b4487978f1637a9c34",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s4_obstaclefield_orig_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s4_obstaclefield_orig_path.dat",
+    "source_sha256": "42983c46732ac6d9f976fefa8f78ccfa08ed3591bb146dad02fb20d113b33f5a",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s2_wall_gap_startgoal.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s2_wall_gap_startgoal.dat",
+    "source_sha256": "0762d824c61eb01ce06bb3640b7571745171a996f5fbd3748e9bf98e73f9d47a",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s2_wall_gap_ctrl_pts.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s2_wall_gap_ctrl_pts.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s3_maze_smooth_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s3_maze_smooth_path.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s2_wall_gap_curvature.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s2_wall_gap_curvature.csv",
+    "source_sha256": "2fd29981c5c2f23dbeecdb90a3b8569332a84ce68e4e32b4487978f1637a9c34",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s2_wall_gap_smooth_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s2_wall_gap_smooth_path.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s5_large_empty_smooth_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s5_large_empty_smooth_path.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s3_maze_orig_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s3_maze_orig_path.dat",
+    "source_sha256": "24f28d80d6f235cf6001db7e26e7a0edcf58ac73af9126fe180f5278c915c83d",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s1_empty_diag_smooth_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s1_empty_diag_smooth_path.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s6_costband_startgoal.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s6_costband_startgoal.dat",
+    "source_sha256": "f0515e077db8212071c0e3412707865e00fb9021027d58a9ff1354d62d26b0a6",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s1_empty_diag_ctrl_pts.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s1_empty_diag_ctrl_pts.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s6_costband_grid.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s6_costband_grid.dat",
+    "source_sha256": "2af372b83a0c68c4831ba74e909c79b140fb44f5b17f3893d76053b7373ffd48",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s6_costband_smooth_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s6_costband_smooth_path.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s5_large_empty_ctrl_pts.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s5_large_empty_ctrl_pts.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/benchmark.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/benchmark.csv",
+    "source_sha256": "32c94fe116c3374ea4c0eab6496f405a7a71ce886679373f4c65dc76ff47dba8",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s6_costband_orig_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s6_costband_orig_path.dat",
+    "source_sha256": "a5adea925601a745c482a69323725df236439b8696df649bb5acaaabb81d720e",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s3_maze_grid.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s3_maze_grid.dat",
+    "source_sha256": "595c1a17d819b4768931b9882eeb3347103ab557f1f87e56bc7ec9486cf821db",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s1_empty_diag_startgoal.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s1_empty_diag_startgoal.dat",
+    "source_sha256": "a8e550ecaba18ba885662bcc69998e80e2d02a178f68cb48dfa9127594a216d6",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s5_large_empty_orig_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s5_large_empty_orig_path.dat",
+    "source_sha256": "c4d6d4f334a756bc78631145faa58723131cc0e66cdcd98525c15cc7b09f9e56",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s1_empty_diag_curvature.csv",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s1_empty_diag_curvature.csv",
+    "source_sha256": "2fd29981c5c2f23dbeecdb90a3b8569332a84ce68e4e32b4487978f1637a9c34",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s2_wall_gap_orig_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s2_wall_gap_orig_path.dat",
+    "source_sha256": "9da29a66865c49e794f44289fd0e0851842e7212f9b84adcf66da137ba8a24ed",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s5_large_empty_grid.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s5_large_empty_grid.dat",
+    "source_sha256": "5d76ce0af2120c600dbce507a49b6fe3553bd655986b2339aed4a2a8463ba30b",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s2_wall_gap_grid.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s2_wall_gap_grid.dat",
+    "source_sha256": "fb4be5bd51380d44f258075e1702b746746fc4a7863d414ccdc89a5464bdbef1",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s6_costband_ctrl_pts.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s6_costband_ctrl_pts.dat",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s4_obstaclefield_grid.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s4_obstaclefield_grid.dat",
+    "source_sha256": "b35459303c3a750ab9b63972cd3ae97859e91b381c96e6adba31767f8bb08186",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s4_obstaclefield_startgoal.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s4_obstaclefield_startgoal.dat",
+    "source_sha256": "958b0df8f88bffad67069c5c25c929206e5e8924bac1ea6cd3706bab83fcbdc8",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_data/bspline_viz_data/s4_obstaclefield_smooth_path.dat",
+    "destination": "src/planner/bspline/test/bspline_viz_data/bspline_viz_data/s4_obstaclefield_smooth_path.dat",
+    "source_sha256": "a99d4c16d52a769494125a2fd737a0fc77f39a1ca29165b513ae5eafc39a6802",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_output/bspline_04_summary.png",
+    "destination": "src/planner/bspline/test/bspline_viz_output/bspline_04_summary.png",
+    "source_sha256": "d48125a4e3a042f075c1d4a32ead4de65b262ec9788b8eec1aa0c485e220bb88",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_output/bspline_03_detail.png",
+    "destination": "src/planner/bspline/test/bspline_viz_output/bspline_03_detail.png",
+    "source_sha256": "4d4f84973628e929ad9bc17bbf9ac6ac577cbce6e56270d880b6d77962c42420",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_output/bspline_02_curvature.png",
+    "destination": "src/planner/bspline/test/bspline_viz_output/bspline_02_curvature.png",
+    "source_sha256": "043c927581a77d2e5276bee205c03aa5fdd61cac6e429ea1dc425b8a024ebf04",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_planner/bspline_optimizer/test/bspline_viz_output/bspline_01_comparison.png",
+    "destination": "src/planner/bspline/test/bspline_viz_output/bspline_01_comparison.png",
+    "source_sha256": "9dc174ba13c5955095f2f5dc7abb96e9aa3dd755f89d85d86807297dc9896177",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_bringup/map/simulation/rmul_2025.yaml",
+    "destination": "assets/maps/rmul_2025.yaml",
+    "source_sha256": "2b66a3aa36643cdc2b3b9bc88d0b58ca7fa586ddb8336e621944124e894fb8f6",
+    "adapted": false
+  },
+  {
+    "source": "src/guga_bringup/map/simulation/rmul_2025.pgm",
+    "destination": "assets/maps/rmul_2025.pgm",
+    "source_sha256": "34e78e055515574655f978e5ed8bc26e6b84a88cf4a247f87dea2ecb9b540757",
+    "adapted": false
+  }
+]
