@@ -3,25 +3,33 @@
 
 #include "abstract.hpp"
 
-
-class ILocalize : public IProduct {
+class INavigationProduct : public IProduct {
 public:
-    virtual void localize() = 0;
-};
-
-class IPlan : public IProduct {
-public:
-    virtual void plan() = 0;
-};
-
-class IControl : public IProduct {
-public:
-    virtual void control() = 0;
+    virtual void navigate() = 0;
 };
 
 class INavigationFactory : public IFactory {
 public:
-    virtual std::unique_ptr<IProduct> createNavigationProduct() = 0;
+    std::unique_ptr<IProduct> createProduct() override{
+        return std::unique_ptr<INavigationProduct>(new INavigationProduct());
+    };
 };
+
+class ILocalize : public INavigationProduct {
+public:
+    virtual void localize() = 0;
+};
+
+class IPlan : public INavigationProduct {
+public:
+    virtual void plan() = 0;
+};
+
+class IControl : public INavigationProduct {
+public:
+    virtual void control() = 0;
+};
+
+
 
 #endif // NAVIGATION_FACTORY_HPP

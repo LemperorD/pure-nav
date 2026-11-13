@@ -1,11 +1,13 @@
 #include <cmath>
 
-inline double deg2rad(double deg);
-inline double rad2deg(double rad);
+double deg2rad(double deg);
+double rad2deg(double rad);
 
-inline double ReLU(double x);
-inline double sigmoid(double x);
-inline double leaky_ReLU(double x);
-inline double SiLU(double x);
+double ReLU(double x);
+double sigmoid(double x);
+double leaky_ReLU(double x);
+double SiLU(double x);
 
-inline double unwarp_angle(double angle);
+double attention(double x, double alpha, double beta);
+
+double unwarp_angle(double angle);
