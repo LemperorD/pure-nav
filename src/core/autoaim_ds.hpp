@@ -1,20 +1,23 @@
-#ifndef NAV_DS_HPP
-#define NAV_DS_HPP
+#ifndef AUTOAIM_DS_HPP
+#define AUTOAIM_DS_HPP
 
 #include <vector>
-#include <pcl/point_types.h>
+#include <opencv2/opencv.hpp>
 
-struct GridMap2D {
-    int width;
-    int height;
-    std::vector<std::vector<int>> grid; // 0 for free space, 1 for obstacles
+using namespace cv;
+using Image = cv::Mat;
+
+struct DetectResult {
+    cv::Rect bounding_box;
+    float confidence;
+    int class_id;
+};
+using DetectResults = std::vector<DetectResult>;
+
+struct GimbalState {
+    float pitch;
+    float yaw;
+    float roll;
 };
 
-struct GridMap3D {
-    int width;
-    int height;
-    int depth;
-    std::vector<std::vector<std::vector<int>>> grid; // 0 for free space, 1 for obstacles
-};
-
-#endif // NAV_DS_HPP
+#endif // AUTOAIM_DS_HPP

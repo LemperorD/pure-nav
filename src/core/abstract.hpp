@@ -7,6 +7,9 @@ class IProduct {
 public:
     virtual ~IProduct() = default;
     virtual void init() = 0;
+    virtual double getFreq() = 0;
+private:
+    double freq_;
 };
 
 class IFactory {
