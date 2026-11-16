@@ -47,6 +47,8 @@ if(PURE_NAV_BUILD_TESTS)
     enable_testing()
 endif()
 
+add_subdirectory(src/core)
+
 # 编译警告
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     add_compile_options(-Wall -Wextra -Wpedantic -Wshadow)
